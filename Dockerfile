@@ -13,8 +13,15 @@ RUN htpasswd -c /etc/squid/passwords user
 # https://wiki.squid-cache.org/SquidFaq/InstallingSquid#How_do_I_start_Squid.3F
 RUN /usr/local/squid/sbin/squid -k parse
 
+# Run a conditional checking if /usr/local/squid/etc/squid.conf file exists.
+# If it does, then backup this file.
+ENV SQUID_CONF="/usr/local/squid/etc/squid.conf"
+RUN if [ -e "$SQUID_CONF" ]; then \
+    mv /usr/local/squid/etc/squid.conf /usr/local/squid/etc/squid.conf.bak && \
+  fi
+
 # Copy configuration file
-COPY squid.conf /usr/local/squid/etc/squid.conf 
+COPY squid.conf $SQUID_CONF
 
 # Since running Squid as root, first create /usr/local/squid/var/logs and if applicable the cache_dir directories and assign ownership of these to the cache_effective_user configured in your squid.conf (current config has no cache)
 RUN mkdir -p /usr/local/squid/var/logs
