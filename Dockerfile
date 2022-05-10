@@ -7,7 +7,8 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y apache2-utils
 
 # Run htpasswd command to generate a password for user
-RUN htpasswd -c /etc/squid/passwords user
+#RUN htpasswd -c /etc/squid/passwords user
+RUN echo password | htpasswd -ci /etc/squid/passwords user
 
 # verify Squid configuration file using the -k parse option
 # https://wiki.squid-cache.org/SquidFaq/InstallingSquid#How_do_I_start_Squid.3F
