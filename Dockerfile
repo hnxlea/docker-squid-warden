@@ -40,6 +40,7 @@ COPY squid.conf "$SQUID_CONF"
 # Start Squid and try it out, and watch the debugging output.
 # Proper response should end in: 
 #   >   Ready to serve requests.
+EXPOSE 3128
 
 #CMD ["sudo -c /usr/local/squid/sbin/squid -NCd1"]
 CMD ["squid-container /bin/bash"]
