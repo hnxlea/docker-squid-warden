@@ -17,8 +17,8 @@ RUN htpasswd -c /etc/squid/passwords user
 # If it does, then backup this file.
 ENV SQUID_CONF="/usr/local/squid/etc/squid.conf"
 RUN if [ -e "$SQUID_CONF" ]; then \
-    mv /usr/local/squid/etc/squid.conf /usr/local/squid/etc/squid.conf.bak && \
-  fi
+        mv /usr/local/squid/etc/squid.conf /usr/local/squid/etc/squid.conf.bak; \
+    fi
 
 # Copy configuration file
 COPY squid.conf $SQUID_CONF
