@@ -6,9 +6,16 @@ RUN apt-get update && apt-get upgrade -y
 # https://docs.docker.com/registry/configuration/#htpasswd
 RUN apt-get install -y apache2-utils
 
+# Run a conditional checking if /etc/squid/passwords file exists.
+# If it does, then backup this file.
+ENV PASS_FILE="/etc/squid/passwords"
+RUN if [ -e "$PASS_FILE" ]; then \
+        mv /etc/squid/passwords /etc/squid/passwords.bak; \
+    fi
+
 # Run htpasswd command to generate a password for user
 #RUN htpasswd -c /etc/squid/passwords user
-RUN echo password | htpasswd -ci /etc/squid/passwords user
+RUN echo password | htpasswd -ci "$PASS_FILE" user
 
 # verify Squid configuration file using the -k parse option
 # https://wiki.squid-cache.org/SquidFaq/InstallingSquid#How_do_I_start_Squid.3F
@@ -22,7 +29,7 @@ RUN if [ -e "$SQUID_CONF" ]; then \
     fi
 
 # Copy configuration file
-COPY squid.conf $SQUID_CONF
+COPY squid.conf "$SQUID_CONF"
 
 # Since running Squid as root, first create /usr/local/squid/var/logs and if applicable the cache_dir directories and assign ownership of these to the cache_effective_user configured in your squid.conf (current config has no cache)
 #RUN mkdir -p /usr/local/squid/var/logs
