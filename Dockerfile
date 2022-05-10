@@ -11,7 +11,7 @@ RUN htpasswd -c /etc/squid/passwords user
 
 # verify Squid configuration file using the -k parse option
 # https://wiki.squid-cache.org/SquidFaq/InstallingSquid#How_do_I_start_Squid.3F
-RUN /usr/local/squid/sbin/squid -k parse
+# RUN /usr/local/squid/sbin/squid -k parse
 
 # Run a conditional checking if /usr/local/squid/etc/squid.conf file exists.
 # If it does, then backup this file.
