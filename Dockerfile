@@ -11,7 +11,7 @@ RUN htpasswd -c /etc/squid/passwords user
 
 # verify Squid configuration file using the -k parse option
 # https://wiki.squid-cache.org/SquidFaq/InstallingSquid#How_do_I_start_Squid.3F
-# RUN /usr/local/squid/sbin/squid -k parse
+#RUN /usr/local/squid/sbin/squid -k parse
 
 # Run a conditional checking if /usr/local/squid/etc/squid.conf file exists.
 # If it does, then backup this file.
@@ -24,16 +24,17 @@ RUN if [ -e "$SQUID_CONF" ]; then \
 COPY squid.conf $SQUID_CONF
 
 # Since running Squid as root, first create /usr/local/squid/var/logs and if applicable the cache_dir directories and assign ownership of these to the cache_effective_user configured in your squid.conf (current config has no cache)
-RUN mkdir -p /usr/local/squid/var/logs
+#RUN mkdir -p /usr/local/squid/var/logs
 
 # Create Squid swap directories by running Squid with the -z option
-RUN /usr/local/squid/sbin/squid -z
+#RUN /usr/local/squid/sbin/squid -z
 
 # Start Squid and try it out, and watch the debugging output.
 # Proper response should end in: 
 #   >   Ready to serve requests.
 
-CMD ["sudo -c /usr/local/squid/sbin/squid -NCd1"]
+#CMD ["sudo -c /usr/local/squid/sbin/squid -NCd1"]
+CMD ["squid-container /bin/bash"]
 
 # Saved for later, in case not exposed through firewall
 # --enable-linux-netfilter
