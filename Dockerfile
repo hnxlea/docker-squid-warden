@@ -19,7 +19,7 @@ RUN echo password | htpasswd -ci "$PASS_FILE" user
 
 # Sanity check, verify file existence
 RUN if [ -e "$PASS_FILE" ]; then \
-        echo "$PASS_FIlE found"; \
+        echo "$PASS_FILE found"; \
     fi
 
 # verify Squid configuration file using the -k parse option
