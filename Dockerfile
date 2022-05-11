@@ -17,6 +17,11 @@ RUN if [ -e "$PASS_FILE" ]; then \
 #RUN htpasswd -c /etc/squid/passwords user
 RUN echo password | htpasswd -ci "$PASS_FILE" user
 
+# Sanity check, verify file existence
+RUN if [ -e "$PASS_FILE" ]; then \
+        echo "$PASS_FIlE found"; \
+    fi
+
 # verify Squid configuration file using the -k parse option
 # https://wiki.squid-cache.org/SquidFaq/InstallingSquid#How_do_I_start_Squid.3F
 #RUN /usr/local/squid/sbin/squid -k parse
@@ -30,6 +35,11 @@ RUN if [ -e "$SQUID_CONF" ]; then \
 
 # Copy configuration file
 COPY squid.conf "$SQUID_CONF"
+
+# Sanity check, verify file copy
+RUN if [ -e "$SQUID_CONF" ]; then \
+        echo "$PASS_FIlE found"; \
+    fi
 
 # Since running Squid as root, first create /usr/local/squid/var/logs and if applicable the cache_dir directories and assign ownership of these to the cache_effective_user configured in your squid.conf (current config has no cache)
 #RUN mkdir -p /usr/local/squid/var/logs
