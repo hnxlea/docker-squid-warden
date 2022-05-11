@@ -31,11 +31,6 @@ RUN if [ -e "$SQUID_CONF" ]; then \
 # Copy configuration file
 COPY squid.conf "$SQUID_CONF"
 
-# Copy init.sh script
-ENV INIT_SCRIPT="~/init.sh"
-COPY init.sh "$INIT_SCRIPT"
-
-
 # Since running Squid as root, first create /usr/local/squid/var/logs and if applicable the cache_dir directories and assign ownership of these to the cache_effective_user configured in your squid.conf (current config has no cache)
 #RUN mkdir -p /usr/local/squid/var/logs
 
@@ -48,8 +43,7 @@ COPY init.sh "$INIT_SCRIPT"
 EXPOSE 3128
 
 #CMD ["sudo -c /usr/local/squid/sbin/squid -NCd1"]
-# CMD ["squid-container /bin/bash"]
-CMD ["bash $INIT_SCRIPT"]
+CMD ["squid-container /bin/bash"]
 
 # Saved for later, in case not exposed through firewall
 # --enable-linux-netfilter
