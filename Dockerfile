@@ -38,7 +38,7 @@ COPY squid.conf "$SQUID_CONF"
 
 # Sanity check, verify file copy
 RUN if [ -e "$SQUID_CONF" ]; then \
-        echo "$PASS_FIlE found"; \
+        echo "$PASS_FILE found"; \
     fi
 
 # Since running Squid as root, first create /usr/local/squid/var/logs and if applicable the cache_dir directories and assign ownership of these to the cache_effective_user configured in your squid.conf (current config has no cache)
